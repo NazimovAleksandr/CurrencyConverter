@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Конвертер валют</string>
+    <string name="defaultTextEditText">0.0</string>
+    <string name="currency">
+        Изменить\n
+        валюту
+    </string>
+    <string name="cancel">Отмена</string>
+    <string name="arrow">Arrow</string>
+    <string name="currency_selection">Выбор валют</string>
+    <string name="nameCurrency">Name</string>
+    <string name="charCode">CODE</string>
+    <string name="content_description_selected">selected</string>
+</resources>
