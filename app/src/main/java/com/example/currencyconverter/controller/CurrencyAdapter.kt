@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.currencyconverter.R
-import com.example.currencyconverter.view.CurrencySelection
 
 class CurrencyAdapter(
     private val value: ArrayList<ArrayList<String>>?,

@@ -4,79 +4,71 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
 import android.widget.*
-import android.widget.TextView.OnEditorActionListener
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.example.currencyconverter.R
 import com.example.currencyconverter.controller.DataController
-
+import com.example.currencyconverter.databinding.ActivityCurrencyConverterBinding
 
 class CurrencyConverter : AppCompatActivity() {
-    private lateinit var charCode1: TextView
-    private lateinit var charCode2: TextView
     private var selectedCurrencyIndex1: Int = 10
     private var selectedCurrencyIndex2: Int = 11
 
+    private lateinit var binding: ActivityCurrencyConverterBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_currency_converter)
 
-        charCode1 = findViewById(R.id.textViewCharCode1)
-        charCode2 = findViewById(R.id.textViewCharCode2)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_currency_converter)
 
-        charCode1.text = DataController.getCharCode(selectedCurrencyIndex1)
-        charCode2.text = DataController.getCharCode(selectedCurrencyIndex2)
+        binding.textViewCharCode1.text = DataController.getCharCode(selectedCurrencyIndex1)
+        binding.textViewCharCode2.text = DataController.getCharCode(selectedCurrencyIndex2)
 
-        val currencySelection1 = findViewById<TextView>(R.id.textViewCurrencySelection1)
-        val currencySelection2 = findViewById<TextView>(R.id.textViewCurrencySelection2)
+        binding.textViewCurrencySelection1.setOnClickListener { showCurrency(1) }
+        binding.textViewCurrencySelection2.setOnClickListener { showCurrency(2) }
 
-        currencySelection1.setOnClickListener { showCurrency(1) }
-        currencySelection2.setOnClickListener { showCurrency(2) }
-
-        val editTextCurrency1 = findViewById<EditText>(R.id.editTextCurrency1)
-        val editTextCurrency2 = findViewById<EditText>(R.id.editTextCurrency2)
-
-        editTextCurrency1.setOnEditorActionListener(OnEditorActionListener { _, actionId, _ ->
+        binding.editTextCurrency1.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                editTextCurrency2.setText(
+                binding.editTextCurrency2.setText(
                     DataController.convert(
-                        editTextCurrency1.text.toString(),
+                        binding.editTextCurrency1.text.toString(),
                         selectedCurrencyIndex1,
                         selectedCurrencyIndex2
                     )
                 )
-                return@OnEditorActionListener true
+                return@setOnEditorActionListener true
             }
             false
-        })
+        }
 
-        editTextCurrency2.setOnEditorActionListener(OnEditorActionListener { _, actionId, _ ->
+        binding.editTextCurrency2.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                editTextCurrency1.setText(
+                binding.editTextCurrency1.setText(
                     DataController.convert(
-                        editTextCurrency2.text.toString(),
+                        binding.editTextCurrency2.text.toString(),
                         selectedCurrencyIndex2,
                         selectedCurrencyIndex1
                     )
                 )
-                return@OnEditorActionListener true
+                return@setOnEditorActionListener true
             }
             false
-        })
+        }
 
-        findViewById<ImageView>(R.id.imageViewLeftArrow).setOnClickListener {
-            editTextCurrency1.setText(
+        binding.imageViewLeftArrow.setOnClickListener {
+            binding.editTextCurrency1.setText(
                 DataController.convert(
-                    editTextCurrency2.text.toString(),
+                    binding.editTextCurrency2.text.toString(),
                     selectedCurrencyIndex2,
                     selectedCurrencyIndex1
                 )
             )
         }
 
-        findViewById<ImageView>(R.id.imageViewRightArrow).setOnClickListener {
-            editTextCurrency2.setText(
+        binding.imageViewRightArrow.setOnClickListener {
+            binding.editTextCurrency2.setText(
                 DataController.convert(
-                    editTextCurrency1.text.toString(),
+                    binding.editTextCurrency1.text.toString(),
                     selectedCurrencyIndex1,
                     selectedCurrencyIndex2
                 )
@@ -94,10 +86,10 @@ class CurrencyConverter : AppCompatActivity() {
         if (resultCode == RESULT_OK) {
             if (requestCode == 1) {
                 selectedCurrencyIndex1 = data?.getStringExtra("index").toString().toInt()
-                charCode1.text = DataController.getCharCode(selectedCurrencyIndex1)
+                binding.textViewCharCode1.text = DataController.getCharCode(selectedCurrencyIndex1)
             } else {
                 selectedCurrencyIndex2 = data?.getStringExtra("index").toString().toInt()
-                charCode2.text = DataController.getCharCode(selectedCurrencyIndex2)
+                binding.textViewCharCode2.text = DataController.getCharCode(selectedCurrencyIndex2)
             }
         }
     }

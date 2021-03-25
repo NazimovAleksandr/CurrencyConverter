@@ -7,30 +7,30 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.currencyconverter.R
 import com.example.currencyconverter.controller.CurrencyAdapter
 import com.example.currencyconverter.controller.DataController
+import com.example.currencyconverter.databinding.ActivityCurrencySelectionBinding
 
 class CurrencySelection : AppCompatActivity() {
-    private lateinit var currencyList : RecyclerView
     private val currencyAdapter = CurrencyAdapter(DataController.liveData.value)
+    private lateinit var binding: ActivityCurrencySelectionBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_currency_selection)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_currency_selection)
 
         currencyAdapter.setIntent(intent)
 
         val layoutManager = LinearLayoutManager(this)
         val decoration = DividerItemDecoration(this, layoutManager.orientation)
 
-        currencyList = findViewById(R.id.currencyList)
-        currencyList.layoutManager = layoutManager
-        currencyList.addItemDecoration(decoration)
-        currencyList.adapter = currencyAdapter
+        binding.currencyList.layoutManager = layoutManager
+        binding.currencyList.addItemDecoration(decoration)
+        binding.currencyList.adapter = currencyAdapter
     }
 
     fun setCurrency(view: View) {
